@@ -1,5 +1,6 @@
-import { SimpleGrid, useDisclosure } from '@chakra-ui/react';
-import { useState } from 'react';
+import { Button, SimpleGrid, useDisclosure } from '@chakra-ui/react';
+// eslint-disable-next-line no-use-before-define
+import React, { useState } from 'react';
 import { Card } from './Card';
 import { ModalViewImage } from './Modal/ViewImage';
 
@@ -16,17 +17,24 @@ interface CardsProps {
 }
 
 export function CardList({ cards }: CardsProps): JSX.Element {
-  // TODO MODAL USEDISCLOSURE
+  const { onOpen, isOpen, onClose } = useDisclosure(); // modal useDisclosure
 
   // TODO SELECTED IMAGE URL STATE
+  const [images, setImages] = useState();
 
   // TODO FUNCTION HANDLE VIEW IMAGE
 
   return (
     <>
-      {/* TODO CARD GRID */}
+      <SimpleGrid column={2}>
+        <Button onClick={() => onOpen()}>Click me</Button>
+      </SimpleGrid>
 
-      {/* TODO MODALVIEWIMAGE */}
+      <ModalViewImage
+        isOpen={isOpen}
+        onClose={onClose}
+        imgUrl="https://i.ibb.co/ZHKyrQ3/rick-and-morty-ii-1042-1-20180314090538.png"
+      />
     </>
   );
 }
