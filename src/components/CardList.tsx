@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
 import { Button, SimpleGrid, useDisclosure } from '@chakra-ui/react';
 // eslint-disable-next-line no-use-before-define
 import React, { useState } from 'react';
@@ -23,11 +25,17 @@ export function CardList({ cards }: CardsProps): JSX.Element {
   const [images, setImages] = useState();
 
   // TODO FUNCTION HANDLE VIEW IMAGE
+  const handleViewImage = (url: string): void => {
+    onOpen();
+  };
 
   return (
     <>
-      <SimpleGrid column={2}>
-        <Button onClick={() => onOpen()}>Click me</Button>
+      <SimpleGrid>
+        <Card
+          data={{ title: '', description: '', url: '', ts: 0 }}
+          viewImage={() => handleViewImage('#')}
+        />
       </SimpleGrid>
 
       <ModalViewImage
