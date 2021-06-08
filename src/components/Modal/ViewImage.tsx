@@ -21,7 +21,7 @@ export function ModalViewImage({
 }: ModalViewImageProps): JSX.Element {
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
-      <ModalOverlay bg="rgba(0, 0, 0, 0.3)" />
+      <ModalOverlay />
       <ModalContent
         my="auto"
         alignItems="start"
@@ -31,6 +31,7 @@ export function ModalViewImage({
         <ModalBody p="0">
           <Image src={imgUrl} alt="image" objectFit="cover" layout="fill" />
         </ModalBody>
+
         <ModalFooter
           h="2rem"
           w="100%"
@@ -38,6 +39,7 @@ export function ModalViewImage({
           color="pGray.50"
           bg="pGray.800"
           justifyContent="left"
+          borderBottomRadius={5}
         >
           <Link fontSize="0.87rem" href={imgUrl}>
             Ver original
