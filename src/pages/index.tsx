@@ -11,10 +11,36 @@ import { CardList } from '../components/CardList';
 import { api } from '../services/api';
 import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
+// import { AxiosResponse } from 'axios';
+
+type fetchImagesParams = {
+  pageParam?: string | null;
+};
+
+type Image = {
+  title: string;
+  description: string;
+  url: string;
+  ts: number;
+  id: string;
+};
+
+type AxiosResponse = {
+  data: Image[];
+  after: string | null;
+};
+
+const fetchImages = async ({ pageParam = null }: fetchImagesParams) => {
+  const data = await api.get<AxiosResponse>(`api/images`, {
+    params: {
+      after: pageParam,
+    },
+  });
+
+  return data;
+};
 
 export default function Home(): JSX.Element {
-  const fetchImages = ({ pageParam = 0 }) => api.get('/api/images');
-
   const {
     data,
     isLoading,
@@ -23,32 +49,16 @@ export default function Home(): JSX.Element {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery('images', fetchImages, {
-    getNextPageParam: (lastPage, pages) => lastPage,
+    getNextPageParam: lastPage => lastPage.data.after ?? null,
   });
 
   const formattedData = useMemo(() => {
-    // TODO FORMAT AND FLAT DATA ARRAY
+    return data?.pages.flatMap(image => image.data.data);
   }, [data]);
 
-  // TODO RENDER LOADING SCREEN
+  // if (isLoading) return <Loading />;
 
-  // TODO RENDER ERROR SCREEN
-
-  // if (isLoading) {
-  //   return (
-  //     <>
-  //       <Loading />
-  //     </>
-  //   );
-  // }
-
-  // if (isError) {
-  //   return (
-  //     <>
-  //       <Error />
-  //     </>
-  //   );
-  // }
+  // if (isError) return <Error />;
 
   return (
     <>
@@ -58,6 +68,15 @@ export default function Home(): JSX.Element {
         <CardList cards={formattedData} />
 
         {/* TODO RENDER LOAD MORE BUTTON IF DATA HAS NEXT PAGE */}
+        {hasNextPage && (
+          <Button
+            marginTop="40px"
+            onClick={() => fetchNextPage()}
+            disabled={!hasNextPage || isFetchingNextPage}
+          >
+            {isFetchingNextPage ? 'Carregando...' : 'Carregar mais'}
+          </Button>
+        )}
 
         <Button mt={8} onClick={() => console.log('')}>
           Carregar mais

@@ -28,8 +28,17 @@ export function ModalViewImage({
         maxWidth="900px"
         maxHeight="600px"
       >
-        <ModalBody p="0">
-          <Image src={imgUrl} alt="image" objectFit="cover" layout="fill" />
+        <ModalBody padding="initial">
+          <Image
+            maxW="900px"
+            maxH="600px"
+            height="100%"
+            weight="100%"
+            src={imgUrl}
+            alt="image"
+            objectFit="cover"
+            layout="fill"
+          />
         </ModalBody>
 
         <ModalFooter
@@ -41,7 +50,7 @@ export function ModalViewImage({
           justifyContent="left"
           borderBottomRadius={5}
         >
-          <Link fontSize="0.87rem" href={imgUrl}>
+          <Link fontSize="0.87rem" lineHeight="16px" href={imgUrl}>
             Ver original
           </Link>
         </ModalFooter>

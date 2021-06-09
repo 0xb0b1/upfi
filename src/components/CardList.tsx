@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 import { Button, SimpleGrid, useDisclosure } from '@chakra-ui/react';
@@ -22,27 +23,34 @@ export function CardList({ cards }: CardsProps): JSX.Element {
   const { onOpen, isOpen, onClose } = useDisclosure(); // modal useDisclosure
 
   // TODO SELECTED IMAGE URL STATE
-  const [images, setImages] = useState();
+  const [imageUrl, setImageUrlSelected] = useState('');
 
   // TODO FUNCTION HANDLE VIEW IMAGE
   const handleViewImage = (url: string): void => {
+    setImageUrlSelected(url);
     onOpen();
   };
 
   return (
     <>
-      <SimpleGrid>
-        <Card
-          data={{ title: '', description: '', url: '', ts: 0 }}
-          viewImage={() => handleViewImage('#')}
-        />
-      </SimpleGrid>
+      {/* <SimpleGrid columns={[1, 2, 3]} spacing="40px">
+        {cards?.map((card, index) => (
+          <Card
+            key={index}
+            data={card}
+            viewImage={url => handleViewImage(card.url)}
+          />
+        ))}
+      </SimpleGrid> */}
+      <Button onClick={() => onOpen()}>Click</Button>
 
-      <ModalViewImage
-        isOpen={isOpen}
-        onClose={onClose}
-        imgUrl="https://i.ibb.co/ZHKyrQ3/rick-and-morty-ii-1042-1-20180314090538.png"
-      />
+      {isOpen && (
+        <ModalViewImage
+          isOpen={isOpen}
+          onClose={onClose}
+          imgUrl="https://i.ibb.co/zXdPThr/cropped.png"
+        />
+      )}
     </>
   );
 }
