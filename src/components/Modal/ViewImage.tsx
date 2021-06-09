@@ -51,7 +51,7 @@ export function ModalViewImage({
           borderBottomRadius={5}
         >
           <Link fontSize="0.87rem" lineHeight="16px" href={imgUrl}>
-            Ver original
+            Abrir original
           </Link>
         </ModalFooter>
       </ModalContent>
