@@ -33,7 +33,7 @@ export function CardList({ cards }: CardsProps): JSX.Element {
 
   return (
     <>
-      {/* <SimpleGrid columns={[1, 2, 3]} spacing="40px">
+      <SimpleGrid columns={[1, 2, 3]} spacing="40px">
         {cards?.map((card, index) => (
           <Card
             key={index}
@@ -41,15 +41,10 @@ export function CardList({ cards }: CardsProps): JSX.Element {
             viewImage={url => handleViewImage(card.url)}
           />
         ))}
-      </SimpleGrid> */}
-      <Button onClick={() => onOpen()}>Click</Button>
+      </SimpleGrid>
 
       {isOpen && (
-        <ModalViewImage
-          isOpen={isOpen}
-          onClose={onClose}
-          imgUrl="https://i.ibb.co/zXdPThr/cropped.png"
-        />
+        <ModalViewImage isOpen={isOpen} onClose={onClose} imgUrl={imageUrl} />
       )}
     </>
   );
