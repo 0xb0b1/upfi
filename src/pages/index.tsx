@@ -56,9 +56,9 @@ export default function Home(): JSX.Element {
     return data?.pages.flatMap(image => image.data.data);
   }, [data]);
 
-  // if (isLoading) return <Loading />;
+  if (isLoading) return <Loading />;
 
-  // if (isError) return <Error />;
+  if (isError) return <Error />;
 
   return (
     <>
@@ -77,10 +77,6 @@ export default function Home(): JSX.Element {
             {isFetchingNextPage ? 'Carregando...' : 'Carregar mais'}
           </Button>
         )}
-
-        <Button mt={8} onClick={() => console.log('')}>
-          Carregar mais
-        </Button>
       </Box>
     </>
   );
