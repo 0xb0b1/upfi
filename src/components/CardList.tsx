@@ -22,10 +22,8 @@ interface CardsProps {
 export function CardList({ cards }: CardsProps): JSX.Element {
   const { onOpen, isOpen, onClose } = useDisclosure(); // modal useDisclosure
 
-  // TODO SELECTED IMAGE URL STATE
   const [imageUrl, setImageUrlSelected] = useState('');
 
-  // TODO FUNCTION HANDLE VIEW IMAGE
   const handleViewImage = (url: string): void => {
     setImageUrlSelected(url);
     onOpen();

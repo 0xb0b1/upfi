@@ -1,5 +1,6 @@
-/* eslint-disable no-console */
+/* eslint-disable no-useless-return */
 /* eslint-disable no-return-await */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Button, Stack, useToast } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
@@ -21,7 +22,6 @@ type dataImageInput = {
 
 export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
   const [imageUrl, setImageUrl] = useState('');
-  console.log('imageUrl: ', imageUrl);
   const [localImageUrl, setLocalImageUrl] = useState('');
   const toast = useToast();
 
@@ -30,10 +30,10 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
       required: 'Arquivo obrigatório',
       validate: {
         lessThan10MB: image => {
-          const limitSizeInBytes = 1024 * 1024 * 10; // 10Mb
+          const limitSizeInBytes = 1024 * 1024 * 10;
           return (
             image[0].size <= limitSizeInBytes ||
-            'O arquivo deve ser menor que 10MB'
+            'O arquivo deve ser meor que 10MB'
           );
         },
         acceptedFormats: image =>
@@ -42,7 +42,7 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
       },
     },
     title: {
-      required: 'Título obrigatório',
+      required: true,
       minLength: {
         value: 2,
         message: 'Mínimo de 2 caracteres',
@@ -53,15 +53,16 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
       },
     },
     description: {
-      required: 'Descrição obrigatória',
+      required: true,
       maxLength: {
         value: 65,
-        message: 'Máximo de 65 caracteres',
+        message: 'Máxima de 65 caracteres',
       },
     },
   };
 
   const queryClient = useQueryClient();
+
   const mutation = useMutation(
     async (data: dataImageInput) => await api.post('/api/images', data),
     {
@@ -73,13 +74,15 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
 
   const { register, handleSubmit, reset, formState, setError, trigger } =
     useForm();
+
   const { errors } = formState;
 
-  const onSubmit = async (data: dataImageInput): Promise<void> => {
+  const onSubmit = async (data: Record<string, unknown>): Promise<void> => {
     try {
+      // TODO SHOW ERROR TOAST IF IMAGE URL DOES NOT EXISTS
       if (!imageUrl) {
         toast({
-          title: 'Imagem não adicionada',
+          title: 'Image não adicionada',
           description:
             'É preciso adicionar e aguardar o upload de uma imagem antes de realizar o cadastro.',
           status: 'info',
@@ -87,7 +90,7 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
 
         return;
       }
-
+      // TODO EXECUTE ASYNC MUTATION
       await mutation.mutateAsync({
         description: data.description,
         title: data.title,
@@ -121,20 +124,20 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
           setLocalImageUrl={setLocalImageUrl}
           setError={setError}
           trigger={trigger}
-          {...register('image', formValidations.image)}
           error={errors.image}
+          {...register('image', formValidations.image)}
         />
 
         <TextInput
           placeholder="Título da imagem..."
-          {...register('title', formValidations.title)}
           error={errors.title}
+          {...register('title', formValidations.title)}
         />
 
         <TextInput
           placeholder="Descrição da imagem..."
-          {...register('description', formValidations.description)}
           error={errors.description}
+          {...register('description', formValidations.description)}
         />
       </Stack>
 
